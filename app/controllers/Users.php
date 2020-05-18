@@ -2,6 +2,7 @@
   class Users extends Controller {
     public function __construct(){
         $this->userModel = $this->model('User');
+        $this->cartModel = $this->model('Cart');
     }
 
     public function register(){
@@ -143,6 +144,7 @@
               // Create Session
               // user comes from row returned form model 
               $this->createUserSession($loggedInUser);
+              
             } else {
               $data['password_err'] = 'Password incorrect';
   
@@ -176,6 +178,8 @@
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
         $_SESSION['admin'] = $user->admin;
+        $cartId = $this->cartModel->checkUserHasCart();
+        $_SESSION['cart_id'] = $cartId;
         // from here redirect to which controller and view you would like. this is currently re directing to home page
         redirect('pages/index');
       }
