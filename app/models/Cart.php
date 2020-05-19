@@ -22,7 +22,7 @@ class Cart
             $this->addCart($_SESSION['user_id']);
             $results = $this->getCartByUserId($_SESSION['user_id']);
         }
-        return $results;
+        return $results->id;
     }
 
     public function getCarts()
@@ -83,7 +83,7 @@ class Cart
         $this->db->query('SELECT * FROM cart WHERE user_id = :id');
         $this->db->bind(':id', $id);
 
-        $results = $this->db->resultSet();
+        $results = $this->db->single();
 
         return $results;
     }

@@ -36,21 +36,25 @@
       <?php foreach ($data['products'] as $product) : ?>
 
         <div class="card">
-        <img class="card-img-top" src="<?php echo $product->image_link; ?>" alt="momJeans"/>
+          <img class="card-img-top" src="<?php echo $product->image_link; ?>" alt="momJeans" />
           <div class="card-body">
             <h5 class="card-title"><?php echo $product->name; ?></h5>
             <p class="card-text"><?php echo $product->description; ?></p>
-            <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">Go To</a>
+            <?php if (isset($_SESSION['user_id'])) : ?>
+             
+              <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">Add to cart</a>
+            <?php else : ?>
+
+              <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">Login to add to cart</a>
+            <?php endif; ?>
           </div>
         </div>
 
-        
+
       <?php endforeach; ?>
     </div>
 
   </div>
-
-
 
 
   <?php require APPROOT . '/views/inc/footer.php'; ?>
