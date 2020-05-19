@@ -240,9 +240,10 @@
 
       $data = [
         'product' => $product,
+        'quantity' => 0,
       ];
 
-      $this->view('products/show', $data);
+      $this->view('pages/productView', $data);
     }
 
     public function delete($id){

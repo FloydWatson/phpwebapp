@@ -16,11 +16,12 @@
     }
 
     public function addCartLine($data){
-      $this->db->query('INSERT INTO cart_line (product_id, quantity, cart_id) VALUES(:product_id, :quantity, :cart_id)');
+      $this->db->query('INSERT INTO cart_line (product_id, quantity, cart_id, line_total) VALUES(:product_id, :quantity, :cart_id, :line_total)');
       // Bind values
       $this->db->bind(':product_id', $data['product_id']);
       $this->db->bind(':quantity', $data['quantity']);
       $this->db->bind(':cart_id', $data['cart_id']);
+      $this->db->bind(':line_total', $data['line_total']);
       
 
       // Execute
