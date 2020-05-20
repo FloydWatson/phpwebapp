@@ -31,6 +31,9 @@
             <a class="nav-link" href="<?php echo URLROOT; ?>/users/edit/<?php echo $_SESSION['user_id']; ?>">Welcome <?php echo $_SESSION['user_name']; ?></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="<?php echo URLROOT; ?>/products/cart">Cart</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="<?php echo URLROOT; ?>/users/logout">Logout</a>
           </li>
           
