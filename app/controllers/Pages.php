@@ -50,4 +50,11 @@ class Pages extends Controller
         // pass view
         $this->view('pages/dashboard', $data);
     }
+
+    public function purchase()
+    {
+
+        // pass view
+        $this->view('pages/purchase');
+    }
 }

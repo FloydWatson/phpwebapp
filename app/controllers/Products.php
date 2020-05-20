@@ -307,7 +307,7 @@ class Products extends Controller
 
       $this->cartLineModel->deleteCartLineByCartId($_SESSION['cart_id']);
 
-      redirect('pages');
+      redirect('pages/purchase');
     } else {
       $cart_lines =  $this->cartLineModel->getCartLinesByCartId($_SESSION['cart_id']);
 
