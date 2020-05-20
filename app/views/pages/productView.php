@@ -13,10 +13,11 @@
             </div>
 
             <div class="product-view-add-cart">
-                <form class="product-view-select-box" action="<?php echo URLROOT; ?>/carts/addcartline/<?php echo $data['product']->id; ?>" method="post">
+                <form class="product-view-select-box" action="<?php echo URLROOT; ?>/products/show/<?php echo $data['product']->id; ?>" method="post">
                     <div class="form-group col-md-6">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" value="<?php echo $data['quantity']; ?>">
+                        <label for="line_quantity">Quantity</label>
+                        <input type="number" name="line_quantity" class="form-control form-control-lg <?php echo (!empty($data['line_quantity_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['line_quantity']; ?>">
+                        
                     </div>
 
                     <div class="form-group  flex-end">

@@ -1,15 +1,7 @@
 <?php
   class Products extends Controller {
     public function __construct(){
-      // this makes all forums only for logged in users
-      if(!isLoggedIn()){
-        redirect('users/login');
-      }
-
-        // Check for admin
-        if(!$_SESSION['admin'] > 0){
-            redirect('pages');
-        }
+      
 
       // instantiate product
       $this->productModel = $this->model('Product');
@@ -19,6 +11,9 @@
 
       // instantiate category
       $this->categoryModel = $this->model('Category');
+
+      $this->cartModel = $this->model('Cart');
+      $this->cartLineModel = $this->model('CartLine');
     }
 
     public function index(){
@@ -35,7 +30,15 @@
 
     // add new post
     public function add(){
+      // this makes all forums only for logged in users
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
 
+        // Check for admin
+        if(!$_SESSION['admin'] > 0){
+            redirect('pages');
+        }
       $brands = $this->brandModel->getBrands();
       $categories = $this->categoryModel->getCategories();
 
@@ -131,7 +134,15 @@
 
     // very similar to add
     public function edit($id){
+      // this makes all forums only for logged in users
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
 
+        // Check for admin
+        if(!$_SESSION['admin'] > 0){
+            redirect('pages');
+        }
       $brands = $this->brandModel->getBrands();
       $categories = $this->categoryModel->getCategories();
 
@@ -238,15 +249,86 @@
     public function show($id){
       $product = $this->productModel->getProductById($id);
 
-      $data = [
-        'product' => $product,
-        'quantity' => 0,
-      ];
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize POST array
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-      $this->view('pages/productView', $data);
+        $postData = [
+          'product' => $product,
+          'line_quantity' => trim($_POST['line_quantity']),
+          'line_quantity_err' => '',
+        ];
+
+        if(empty($postData['line_quantity'])){
+          $postData['line_quantity_err'] = 'Please enter line_quantity';
+        }
+  
+       
+        // check product exists here
+  
+        // check line_quantity here
+        if(empty($postData['line_quantity_err'])) {
+          $data = [
+            'product_id' => $id,
+            'quantity' => floatval($postData['line_quantity']), // add dynamic variable
+            'cart_id' => $_SESSION['cart_id'],
+            'line_total' => ($product->price * floatval($postData['line_quantity']))
+    
+            //'categories' => $categories
+          ];
+    
+          $this->cartLineModel->addCartLine($data);
+        } else {
+          $this->view('pages/productView', $postData);
+        }
+        
+      } else {
+        $data = [
+          'product' => $product,
+          'line_quantity' => 0,
+          'line_quantity_err' => ''
+        ];
+  
+        $this->view('pages/productView', $data);
+      }
+
+     
     }
 
+    public function addCartLine($product_id)
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Sanitize POST array
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+      // check product exists here
+
+      $product = $this->productModel->getProductById($product_id);
+      // check quantity here
+
+      $data = [
+        'product_id' => $product_id,
+        'quantity' => trim($_POST['quantity']), // add dynamic variable
+        'cart_id' => $_SESSION['cart_id'],
+        'line_total' => $product->price * trim($_POST['quantity'])
+
+        //'categories' => $categories
+      ];
+
+      $this->cartLineModel->addCartLine($data);
+    }
+  }
+
     public function delete($id){
+      // this makes all forums only for logged in users
+      if(!isLoggedIn()){
+        redirect('users/login');
+      }
+
+        // Check for admin
+        if(!$_SESSION['admin'] > 0){
+            redirect('pages');
+        }
       if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
           // Check for admin
