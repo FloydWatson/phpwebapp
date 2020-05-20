@@ -22,7 +22,14 @@
 
                     <div class="form-group  flex-end">
                         <div class="col-sm-10">
+                        <?php if (isset($_SESSION['user_id'])) : ?>
+             
                             <button type="submit" class="btn btn-primary"> <small>add to cart</small></button>
+                        <?php else : ?>
+
+                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn-primary">Login</a>
+                        <?php endif; ?>
+                            
                         </div>
                     </div>
                 </form>

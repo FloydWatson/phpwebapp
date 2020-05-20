@@ -301,27 +301,36 @@ class Products extends Controller
 
   public function cart()
   {
-    $cart_lines =  $this->cartLineModel->getCartLinesByCartId($_SESSION['cart_id']);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Sanitize POST array
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-    $cart_lines_data = [];
+      $this->cartLineModel->deleteCartLineByCartId($_SESSION['cart_id']);
 
-    $total = 0;
+      redirect('pages');
+    } else {
+      $cart_lines =  $this->cartLineModel->getCartLinesByCartId($_SESSION['cart_id']);
 
-    foreach ($cart_lines as $cartLine) {
-      array_push($cart_lines_data, [
-        'name' => $this->productModel->getProductById($cartLine->product_id)->name,
-        'quantity' => $cartLine->quantity,
-        'total' => $cartLine->line_total
-      ]);
-      $total += $cartLine->line_total;
+      $cart_lines_data = [];
+
+      $total = 0;
+
+      foreach ($cart_lines as $cartLine) {
+        array_push($cart_lines_data, [
+          'name' => $this->productModel->getProductById($cartLine->product_id)->name,
+          'quantity' => $cartLine->quantity,
+          'total' => $cartLine->line_total
+        ]);
+        $total += $cartLine->line_total;
+      }
+
+      $cart_data = [
+        'cart_lines' => $cart_lines_data,
+        'total' => $total
+      ];
+
+      $this->view('products/cart', $cart_data);
     }
-
-    $cart_data = [
-      'cart_lines' => $cart_lines_data,
-      'total' => $total
-    ];
-
-    $this->view('products/cart', $cart_data);
   }
 
   public function delete($id)

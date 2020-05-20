@@ -43,7 +43,7 @@
     <hr>
 
     <div class="container">
-        <form>
+        <form action="<?php echo URLROOT; ?>/products/cart" method="post">
             <div class="form-group">
                 <label for="inputAddress">Address</label>
                 <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">

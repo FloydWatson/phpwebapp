@@ -40,13 +40,10 @@
           <div class="card-body">
             <h5 class="card-title"><?php echo $product->name; ?></h5>
             <p class="card-text"><?php echo $product->description; ?></p>
-            <?php if (isset($_SESSION['user_id'])) : ?>
+            
              
-              <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">Add to cart</a>
-            <?php else : ?>
-
-              <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">Login to add to cart</a>
-            <?php endif; ?>
+              <a href="<?php echo URLROOT; ?>/products/show/<?php echo $product->id; ?>" class="btn btn-primary">More</a>
+            
           </div>
         </div>
 
