@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-3" style="width: 18rem;">
-   
+
   </div>
   <div class="col">
 
@@ -15,10 +15,12 @@
 
 
     <div class="home-grid-area">
-     
+
     </div>
 
   </div>
+  <div class="col-3" style="width: 18rem;">
 
+  </div>
 
   <?php require APPROOT . '/views/inc/footer.php'; ?>
