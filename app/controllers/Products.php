@@ -362,4 +362,46 @@ class Products extends Controller
       redirect('products');
     }
   }
+
+  public function shopping()
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Sanitize POST array
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+      $data = [
+        'text_search' => trim($_POST['text_search']),      
+        'min_price_search' => trim($_POST['min_price_search']),  
+        'max_price_search' => trim($_POST['max_price_search']),   
+      ];
+
+      $products = $this->productModel->getProductBySearch($data);
+
+      $afterData = [
+        'products' => $products,
+        'text_search' => '',
+        'min_price_search' => '',
+        'max_price_search' => ''
+      ];
+      // pass view
+      $this->view('products/shopping', $afterData);
+
+
+    } else {
+      // Get Products
+      $products = $this->productModel->getProducts();
+
+      $data = [
+        'products' => $products,
+        'text_search' => '',
+        'min_price_search' => '',
+        'max_price_search' => ''
+      ];
+      // pass view
+      $this->view('products/shopping', $data);
+    }
+  }
 }
+
+
+

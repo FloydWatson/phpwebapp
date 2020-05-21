@@ -95,5 +95,16 @@
       }
     }
 
-    
+    public function getProductBySearch($text){
+
+
+      $this->db->query('SELECT * FROM products WHERE description LIKE :text AND price BETWEEN :min AND :max ');
+      $this->db->bind(':text', '%'.$text['text_search'].'%');
+      $this->db->bind(':min', $text['min_price_search'] === '' ? 0 : $text['min_price_search']);
+      $this->db->bind(':max', $text['max_price_search'] === '' ? 99999999 : $text['max_price_search']);
+
+      $results = $this->db->resultSet();
+
+      return $results;
+    }
   }
